@@ -1,0 +1,21 @@
+pipeline{
+        agent any
+        stages{
+            stage('Clone Git Repo'){
+                steps{
+                    sh "git clone https://gitlab.com/qacdevops/chaperootodo_client"
+                }
+            }
+            stage('Install Docker'){
+                steps{
+                    sh "sudo apt install docker.io"
+                    sh "sudo apt install docker-compose"
+                }
+            }
+            stage('Deploy'){
+                steps{
+                    sh "sudo docker-compose pull && sudo -E DB_PASSWORD=${DB_PASSWORD} docker-compose up -d"
+                }
+            }
+        }
+}
